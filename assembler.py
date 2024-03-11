@@ -17,14 +17,12 @@ for i in range(len(asm)):
         label.append([re.split(":",asm[i])[0], 4*i])
         asm[i] = re.split(":",asm[i])[1]
         asm[i] = asm[i].strip()
-
-# print(asm)
-# print(label)
+        
 asm1 = []
 for i in range(len(asm)):
     asm1.append(re.split(" ", asm[i], 1))
 
-# print(asm1)
+
 asmdf = pd.DataFrame(asm1)
 
 print(asmdf)
@@ -37,7 +35,7 @@ for x in asmdf[0]:
     op.append(inst.instDf['opcode'][i[0]])
     f3.append(inst.instDf['funct3'][i[0]])
     f7.append(inst.instDf['funct7'][i[0]])
-# print(op,f3,f7)
+
 
 asm2 = []
 for x in asmdf[1]:
@@ -132,11 +130,6 @@ for i in range(len(op)):
     
 
 print(inst_code)
-
-# things = os.listdir('.')
-
-# print(things,type(things))
-# print(os.name)
 
 file = open('hex.txt','w')
 for x in inst_code:
