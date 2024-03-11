@@ -52,7 +52,6 @@ print(asm2)
 inst_code = []
 for i in range(len(op)):
     if(op[i] == "0110111" or op[i] == "0010111"):
-        # ******************************LUI******************************
         rd = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][0]].tolist()[0]]
         if(int(asm2[i][1]) >= 0):
             imm = '{:020b}'.format(int(asm2[i][1]))
@@ -61,7 +60,6 @@ for i in range(len(op)):
         inst_code.append('{:08x}'.format(int(imm + rd + op[i], base=2)))
 
     elif(op[i] == "1101111"):
-        # ******************************JAL******************************
         rd = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][0]].tolist()[0]]
         for x in label:
             if x[0] == asm2[i][1]:
@@ -73,7 +71,6 @@ for i in range(len(op)):
 
 
     elif(op[i] == "1100111"):
-        # ******************************JALR******************************
         rd = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][0]].tolist()[0]]
         rs1 = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][1]].tolist()[0]]
         if(int(asm2[i][2]) >= 0):
@@ -83,7 +80,6 @@ for i in range(len(op)):
         inst_code.append('{:08x}'.format(int(imm + rs1 + f3[i] + rd + op[i], base=2)))
 
     elif(op[i] == "1100011"):
-        # ******************************Branch Instructions******************************
         rs1 = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][0]].tolist()[0]]
         rs2 = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][1]].tolist()[0]]
         print(rs1,rs2)
@@ -96,7 +92,6 @@ for i in range(len(op)):
                 inst_code.append('{:08x}'.format(int(imm[0] + imm[2:8] + rs2 + rs1 + f3[i] + imm[8:] + imm[1] + op[i], base=2)))
     
     elif(op[i] == "0000011"):
-        # ******************************Load instructions******************************
         rd = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][0]].tolist()[0]]
         if(int(asm2[i][1]) >= 0):
             imm = '{:012b}'.format(int(asm2[i][1]))
@@ -105,9 +100,13 @@ for i in range(len(op)):
         rs1 = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][2]].tolist()[0]]
         inst_code.append('{:08x}'.format(int((imm + rs1 + f3[i] + rd + op[i]),base=2)))
 
-
+    elif(op[i] == "0110011"):
+        rd = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][0]].tolist()[0]]
+        rs1 = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][1]].tolist()[0]]
+        rs2 = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][2]].tolist()[0]]
+        inst_code.append('{:08x}'.format(int(f7[i] + rs2 + rs1 + f3[i] + rd + op[i], base=2)))
+        
     elif(op[i] == "0100011"):
-        # ******************************Store Instructions******************************
         rs2 = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][0]].tolist()[0]]
         if(int(asm2[i][1]) >= 0):
             imm = '{:012b}'.format(int(asm2[i][1]))
@@ -118,7 +117,6 @@ for i in range(len(op)):
 
 
     elif(op[i] == "0010011"):
-        # ******************************Immediate Type******************************
         rd = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][0]].tolist()[0]]
         if(int(asm2[i][2]) >= 0):
             imm = '{:012b}'.format(int(asm2[i][2]))
@@ -131,12 +129,7 @@ for i in range(len(op)):
             inst_code.append('{:08x}'.format(int((f7[i] + imm[7:] + rs1 + f3[i] + rd + op[i]),base=2)))        
 
 
-    elif(op[i] == "0110011"):
-        # ******************************R-Type Instructions******************************
-        rd = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][0]].tolist()[0]]
-        rs1 = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][1]].tolist()[0]]
-        rs2 = reg.regDf['value'][reg.regDf.index[reg.regDf['name'] == asm2[i][2]].tolist()[0]]
-        inst_code.append('{:08x}'.format(int(f7[i] + rs2 + rs1 + f3[i] + rd + op[i], base=2)))
+    
 
 print(inst_code)
 
